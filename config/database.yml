@@ -24,7 +24,3 @@ test:
   database: url_shortener_api_test
   username: <%= ENV.fetch('DB_DEV_USERNAME') { 'postgres' } %>
   password: <%= ENV.fetch('DB_DEV_PASSWORD') { 'postgres' } %>
-  <<: *default
-  database: url_shortener_api_production
-  username: url_shortener_api
-  password: <%= ENV["URL_SHORTENER_API_DATABASE_PASSWORD"] %>

@@ -1,0 +1,7 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+user_one:
+  encrypted_key: "bc544875-95d5-463d-b4fa-4c13848eb3c8"
+
+user_two:
+  encrypted_key: "b9e2caf2-cb4a-4e0a-9d21-b2f9f46b1ffb"
