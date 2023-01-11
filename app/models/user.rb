@@ -5,7 +5,7 @@ class User < ApplicationRecord
   before_create :set_encrypted_key
 
   private
-    def set_encrypted_key
-      self.encrypted_key = SecureRandom.uuid if self.encrypted_key.nil?
-    end
+  def set_encrypted_key
+    self.encrypted_key = SecureRandom.uuid if encrypted_key.nil?
+  end
 end
