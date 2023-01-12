@@ -1,0 +1,70 @@
+name: Ruby
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:11
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: url_shortener_api_rails_github_test
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    steps:
+      - name: Set up Ruby v2.7
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.7.2
+
+      - name: Install required packages
+        run: |
+          sudo apt-get install libpq-dev
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Restore bundler cache
+        uses: actions/cache@v1
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-new-gems-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-new-gems-
+
+      - name: Install gems
+        run: |
+          gem install bundler
+          bundle config path vendor/bundle
+          bundle install --jobs 4 --retry 3
+
+      - name: Run tests
+        env:
+          POSTGRES_HOST: localhost
+          POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }}
+          RAILS_ENV: test
+          ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY: ${{secrets.ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY}}
+          ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY: ${{secrets.ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY}}
+          ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT: ${{secrets.ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT}}
+          SAFE_REDIRECT_DOMAIN: ${{secrets.SAFE_REDIRECT_DOMAIN}}
+          DOMAIN: ${{secrets.DOMAIN}}
+        run: |
+          cp config/database.yml.github config/database.yml
+          bundle exec rake db:test:prepare
+          bundle exec rspec
+
+      - name: Run rubocop
+        run: |
+          bundle exec rubocop
+
