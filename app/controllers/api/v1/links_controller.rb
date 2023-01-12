@@ -12,6 +12,14 @@ class Api::V1::LinksController < ApplicationController
     end
   end
 
+  def index
+    if @user.links.any?
+      render json: { links: @user.links.map { |link| link.serializable_hash.except("user_id")} }, status: :ok
+     else
+      render json: { message: 'Unable to find any Links.'}, status: :not_found
+     end
+  end
+
   def create
     @link = Link.new(link_params)
     @link.user = @user
