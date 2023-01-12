@@ -6,9 +6,9 @@ class Api::V1::LinksController < ApplicationController
     @link.user = @user
     if @link.save
       render json: { id: @link.id, shortened_link: @link.shortened_link }, status: :ok
-     else
+    else
       render json: { message: @link.errors.full_messages }, status: :unprocessable_entity
-     end 
+    end
   end
 
   private

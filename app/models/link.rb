@@ -3,7 +3,7 @@ class Link < ApplicationRecord
   validates :long_link, presence: true, length: { minimum: 30}
   validates :shortened_link, uniqueness: true
   validate :long_link_has_valid_format
-  
+
   before_create :set_shortened_link
 
   private
@@ -12,8 +12,8 @@ class Link < ApplicationRecord
   end
 
   def long_link_has_valid_format
-    return if long_link.match(/^((https?:)(\/\/\/?)([\w]*(?::[\w]*)?@)?([\d\w\.-]+)(?::(\d+))?)?([\/\\\w\.()-]*)?(?:([?][^#]*)?(#.*)?)*/)
-  
+    return if long_link.match(/^((https?:)(\/\/\/?)(\w*(?::\w*)?@)?([\d\w.-]+)(?::(\d+))?)?([\/\\\w.()-]*)?(?:([?][^#]*)?(#.*)?)*/)
+
     errors.add(:long_link, I18n.t('errors.link.url.url_has_invalid_format'))
   end
 end
