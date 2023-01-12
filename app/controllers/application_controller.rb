@@ -1,6 +1,11 @@
 class ApplicationController < ActionController::API
   include ActionController::HttpAuthentication::Token::ControllerMethods
 
+  def show_link
+    link = Link.find_by(shortened_link: request.url)
+    redirect_to link&.long_link || ENV['SAFE_REDIRECT_DOMAIN'], allow_other_host: true
+  end
+
   private
 
   def authenticate
