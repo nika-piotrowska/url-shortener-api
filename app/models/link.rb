@@ -1,13 +1,19 @@
 class Link < ApplicationRecord
   belongs_to :user
-  validates :long_link, presence: true, length: { minimum: 30}
+  validates :long_link, presence: true
   validates :shortened_link, uniqueness: true
   validate :long_link_has_valid_format
+  validates_presence_of :click_count
+  validates_presence_of :user_id
 
   before_create :set_shortened_link
 
   def belongs_to?(user)
     user_id == user.id
+  end
+
+  def raise_click_count
+    self.update(click_count: click_count + 1)
   end
 
   private
