@@ -6,6 +6,10 @@ class Link < ApplicationRecord
 
   before_create :set_shortened_link
 
+  def belongs_to?(user)
+    user_id == user.id
+  end
+
   private
   def set_shortened_link
     self.shortened_link = "#{ENV['DOMAIN']}/?l=#{SecureRandom.alphanumeric}"
