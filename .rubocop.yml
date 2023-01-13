@@ -498,3 +498,6 @@ RSpec/ContextWording:
 
 RSpec/MultipleMemoizedHelpers:
   Max: 18
+
+RSpec/MultipleExpectations:
+  Enabled: false
