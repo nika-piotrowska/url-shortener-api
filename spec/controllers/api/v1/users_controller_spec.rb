@@ -51,11 +51,12 @@ RSpec.describe Api::V1::UsersController, type: :controller do
     end
 
     context 'with authentication' do
-      before do
-        request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Token.encode_credentials(user.encrypted_key)
-      end
       subject do
         patch :refresh_encrypted_key
+      end
+
+      before do
+        request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Token.encode_credentials(user.encrypted_key)
       end
 
       it 'has status 200' do
