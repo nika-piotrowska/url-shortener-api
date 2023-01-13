@@ -13,7 +13,7 @@ class Api::V1::UsersController < ApplicationController
   def refresh_encrypted_key
     @user.encrypted_key = SecureRandom.uuid
     if @user.save
-      render json: { encrypted_key: @user.encrypted_key, message: 'This is your new key.'  }, status: :ok
+      render json: { encrypted_key: @user.encrypted_key, message: 'This is your new key.' }, status: :ok
     else
       render json: { message: @user.errors.full_messages }, status: :unprocessable_entity
     end
