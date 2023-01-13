@@ -6,7 +6,7 @@ class Link < ApplicationRecord
   validates_presence_of :click_count
   validates_presence_of :user_id
 
-  before_create :set_shortened_link
+  before_validation :set_shortened_link
 
   def belongs_to?(user)
     user_id == user.id
