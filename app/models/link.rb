@@ -23,7 +23,7 @@ class Link < ApplicationRecord
 
   def long_link_has_valid_format
     return if long_link.blank?
-    return if long_link.match(/^(?:(https?:\/\/(www\.)?)|((https?:\/\/)?(www\.)))(?!(w{1,2}\.))([-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b)*(\/[\/\d\w\.-]*)*(?:[\?])*(.+)*/)
+    return if long_link.match(/^(?:(https?:\/\/(www\.)?)|((https?:\/\/)?(www\.)))(?!(w{1,2}\.))([-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b)*(\/[\/\d\w.-]*)*(?:\?)*(.+)*/)
 
     errors.add(:long_link, I18n.t('errors.link.url.url_has_invalid_format'))
   end
