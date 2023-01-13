@@ -13,7 +13,7 @@ class Link < ApplicationRecord
   end
 
   def raise_click_count
-    self.update(click_count: click_count + 1)
+    update(click_count: click_count + 1)
   end
 
   private
