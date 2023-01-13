@@ -3,9 +3,10 @@ class User < ApplicationRecord
   has_many :links, dependent: :destroy
   validates_presence_of :encrypted_key
 
-  before_create :set_encrypted_key
+  before_validation :set_encrypted_key
 
   private
+
   def set_encrypted_key
     self.encrypted_key = SecureRandom.uuid if encrypted_key.nil?
   end
