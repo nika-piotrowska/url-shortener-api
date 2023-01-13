@@ -7,6 +7,7 @@ class ApplicationController < ActionController::API
 
   def show_link
     link = Link.find_by(shortened_link: request.url)
+    link&.raise_click_count
     redirect_to link&.long_link || ENV['SAFE_REDIRECT_DOMAIN'], allow_other_host: true
   end
 
