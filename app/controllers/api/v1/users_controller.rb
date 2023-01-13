@@ -4,7 +4,7 @@ class Api::V1::UsersController < ApplicationController
   def create
     @user = User.new
     if @user.save
-      render json: { encrypted_key: @user.encrypted_key}, status: :ok
+      render json: { encrypted_key: @user.encrypted_key, message: 'This is your key. Save it.' }, status: :ok
     else
       render json: { message: 'Unable to create User.' }, status: :bad_request
     end
