@@ -10,4 +10,5 @@ Rails.application.routes.draw do
     end
   end
   get '/', to: 'application#show_link'
+  match '*unmatched', to: 'application#not_found', via: :all
 end
