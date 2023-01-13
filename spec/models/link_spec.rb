@@ -4,34 +4,42 @@ RSpec.describe Link, type: :model do
   fixtures :all
   subject(:example_link) { links(:link_one) }
 
-  it 'is valid with valid attributes' do
+  it 'with valid attributes is valid' do
     expect(example_link).to be_valid
   end
 
-  context 'when is invalid with invalid attribute:' do
-    it 'user_id' do
-      example_link.user_id = nil
-      expect(example_link).not_to be_valid
+  context 'with invalid attribute:' do
+    context 'user_id' do
+      it 'is invalid' do
+        example_link.user_id = nil
+        expect(example_link).not_to be_valid
+      end
     end
 
-    it 'long_link' do
-      example_link.long_link = nil
-      expect(example_link).not_to be_valid
+    context 'long_link' do
+      it 'is invalid (nil)' do
+        example_link.long_link = nil
+        expect(example_link).not_to be_valid
+      end
+
+      it 'is invalid (invalid format)' do
+        example_link.long_link = 'invalid'
+        expect(example_link).not_to be_valid
+      end
     end
 
-    it 'long_link has invalid format' do
-      example_link.long_link = 'invalid'
-      expect(example_link).not_to be_valid
+    context 'shortened_link' do
+      it 'is valid (assigned before validation)' do
+        example_link.shortened_link = nil
+        expect(example_link).to be_valid
+      end
     end
 
-    it 'shortened_link' do
-      example_link.shortened_link = nil
-      expect(example_link).not_to be_valid
-    end
-
-    it 'click_count' do
-      example_link.click_count = nil
-      expect(example_link).not_to be_valid
+    context 'click_count' do
+      it 'is invalid' do
+        example_link.click_count = nil
+        expect(example_link).not_to be_valid
+      end
     end
   end
 end
