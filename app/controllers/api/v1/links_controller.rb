@@ -30,6 +30,19 @@ class Api::V1::LinksController < ApplicationController
     end
   end
 
+  def destroy
+    debugger
+    @link = Link.find_by(id: params[:id])
+    if @link&.belongs_to?(@user)
+     @link.destroy
+     render json: { message: 'Link successfully deleted.'}, status: :ok
+    elsif @link.present?
+      render json: { message: 'You are unauthorized to perform this action.' }, status: :unauthorized
+    else
+     render json: { message: 'Unable to delete Link.'}, status: :bad_request
+    end
+  end  
+
   private
   def link_params
     params.require(:link).permit(:long_link)
